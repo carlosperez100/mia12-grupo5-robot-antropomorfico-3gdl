@@ -1,0 +1,23 @@
+{
+  "posicion_DH_simplificada": [
+    "(l2*cos(theta2) + l3*cos(theta2 + theta3))*cos(theta1)",
+    "(l2*cos(theta2) + l3*cos(theta2 + theta3))*sin(theta1)",
+    "l1 + l2*sin(theta2) + l3*sin(theta2 + theta3)"
+  ],
+  "ec9_diferencia_paper_menos_DH": "[[0, 0, 0, 0], [0, 0, 0, sqrt(2)*l2*cos(theta2 + pi/4)], [0, 0, 0, 0], [0, 0, 0, 0]]",
+  "ec12_Px_coincide": true,
+  "ec13_Py_coincide": false,
+  "ec13_Py_diferencia": "(-l2*sin(theta1) - l3*sin(theta1)*cos(theta3) + l3*sin(theta1) + l3*sin(theta3)*cos(theta3))*cos(theta2)",
+  "ec14_Pz_coincide": true,
+  "ejemplo_q_grados": [
+    30,
+    20,
+    -60
+  ],
+  "ejemplo_P_DH": [
+    0.325,
+    0.1876,
+    0.2538
+  ],
+  "ejemplo_Py_paper": 0.0464
+}
