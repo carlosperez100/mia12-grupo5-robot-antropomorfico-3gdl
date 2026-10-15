@@ -1,0 +1,44 @@
+{
+  "jacobiano_analitico": "[[-(l2*cos(theta2) + l3*cos(theta2 + theta3))*sin(theta1), -(l2*sin(theta2) + l3*sin(theta2 + theta3))*cos(theta1), -l3*sin(theta2 + theta3)*cos(theta1)], [(l2*cos(theta2) + l3*cos(theta2 + theta3))*cos(theta1), -(l2*sin(theta2) + l3*sin(theta2 + theta3))*sin(theta1), -l3*sin(theta1)*sin(theta2 + theta3)], [0, l2*cos(theta2) + l3*cos(theta2 + theta3), l3*cos(theta2 + theta3)]]",
+  "Jw": "[[0, sin(theta1), sin(theta1)], [0, -cos(theta1), -cos(theta1)], [1, 0, 0]]",
+  "analitico_igual_geometrico": true,
+  "det_Jv": "-l2*l3*(l2*cos(theta2) + l3*cos(theta2 + theta3))*sin(theta3)",
+  "evaluacion_tabla10": [
+    {
+      "punto": [
+        0.25,
+        0.01,
+        0.11
+      ],
+      "det": 0.012046,
+      "numero_condicion": 2.87
+    },
+    {
+      "punto": [
+        0.25,
+        0.11,
+        0.11
+      ],
+      "det": 0.012877,
+      "numero_condicion": 3.24
+    },
+    {
+      "punto": [
+        0.15,
+        0.11,
+        0.11
+      ],
+      "det": 0.008844,
+      "numero_condicion": 2.22
+    },
+    {
+      "punto": [
+        0.15,
+        0.01,
+        0.11
+      ],
+      "det": 0.006915,
+      "numero_condicion": 2.02
+    }
+  ]
+}
