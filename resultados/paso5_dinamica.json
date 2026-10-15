@@ -1,0 +1,100 @@
+{
+  "M_nuestro": [
+    [
+      "I1zz + Ixx2*sin(theta2)**2 + Ixx3*sin(theta2 + theta3)**2 + Iyy2*cos(theta2)**2 + Iyy3*cos(theta2 + theta3)**2 + lc2**2*m2*sin(theta1)**2*cos(theta2)**2 + lc2**2*m2*cos(theta1)**2*cos(theta2)**2 + m3*(l2*cos(theta2) + lc3*cos(theta2 + theta3))**2*sin(theta1)**2 + m3*(l2*cos(theta2) + lc3*cos(theta2 + theta3))**2*cos(theta1)**2",
+      "0",
+      "0"
+    ],
+    [
+      "0",
+      "I2zz + I3zz + l2**2*m3 + 2*l2*lc3*m3*cos(theta3) + lc2**2*m2 + lc3**2*m3",
+      "I3zz + l2*lc3*m3*cos(theta3) + lc3**2*m3"
+    ],
+    [
+      "0",
+      "I3zz + l2*lc3*m3*cos(theta3) + lc3**2*m3",
+      "I3zz + lc3**2*m3"
+    ]
+  ],
+  "G_nuestro": [
+    "0",
+    "g*(l2*m3*cos(theta2) + lc2*m2*cos(theta2) + lc3*m3*cos(theta2 + theta3))",
+    "g*lc3*m3*cos(theta2 + theta3)"
+  ],
+  "diferencia_M_con_Ixx_Iyy_Izz_iguales": [
+    [
+      "0",
+      "-I2zz - I3zz",
+      "-I3zz"
+    ],
+    [
+      "-I2zz - I3zz",
+      "0",
+      "0"
+    ],
+    [
+      "-I3zz",
+      "0",
+      "0"
+    ]
+  ],
+  "diferencia_C": [
+    "0",
+    "0",
+    "0"
+  ],
+  "diferencia_G": [
+    "0",
+    "0",
+    "0"
+  ],
+  "P1_q_grados": [
+    2.291,
+    2.057,
+    -84.13
+  ],
+  "M_nuestro_P1": [
+    [
+      0.22605,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.21208,
+      0.07927
+    ],
+    [
+      0.0,
+      0.07927,
+      0.07321
+    ]
+  ],
+  "M_paper_P1": [
+    [
+      0.22605,
+      0.06211,
+      0.03616
+    ],
+    [
+      0.06211,
+      0.21208,
+      0.07927
+    ],
+    [
+      0.03616,
+      0.07927,
+      0.07321
+    ]
+  ],
+  "tau_inercia_qdd_0_1_0_nuestro": [
+    0.0,
+    0.21208,
+    0.07927
+  ],
+  "tau_inercia_qdd_0_1_0_paper": [
+    0.06211,
+    0.21208,
+    0.07927
+  ]
+}
