@@ -1,0 +1,12 @@
+{
+  "alcance_max_desde_hombro_m": 0.44,
+  "r_max_m": 0.4399,
+  "z_min_m": -0.0261,
+  "z_max_m": 0.7599,
+  "puntos_tabla10_distancia_al_hombro_m": [
+    0.3266,
+    0.3445,
+    0.2805,
+    0.2583
+  ]
+}
