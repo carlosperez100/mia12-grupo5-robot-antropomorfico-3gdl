@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIA-12 · Grupo 5 · Robot antropomórfico RRR</title>
+<meta name="description" content="Avance del trabajo final de MIA-12 Robótica y Sistemas Autónomos (UNI-FIIS): comprobación del modelo de un robot antropomórfico RRR de 3 GDL.">
+<style>
+  :root {
+    --azul: #1F3A5F;
+    --azul-medio: #2F6FB0;
+    --azul-claro: #E8EEF6;
+    --fondo: #F7F9FC;
+    --texto: #1E2833;
+    --gris: #5B6B7C;
+    --borde: #D3DCE7;
+    --verde: #1E7B4F;
+    --verde-claro: #E3F3EA;
+    --rojo: #B03A2E;
+    --rojo-claro: #FBE9E7;
+    --ambar: #8A5A00;
+    --ambar-claro: #FFF4DC;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--fondo); color: var(--texto);
+    font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.55;
+  }
+  .contenedor { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  header.portada { background: #fff; border-bottom: 4px solid var(--azul); }
+  .portada .contenedor { display: flex; gap: 24px; align-items: center; padding-top: 24px; padding-bottom: 24px; }
+  .portada img { width: 92px; height: auto; flex-shrink: 0; }
+  .portada .inst { color: var(--gris); font-size: 14px; margin: 0; }
+  .portada h1 { color: var(--azul); font-size: 26px; margin: 8px 0 4px; line-height: 1.25; }
+  .portada .sub { margin: 0; font-size: 16px; color: var(--azul-medio); font-weight: bold; }
+  nav.indice { background: var(--azul); position: sticky; top: 0; z-index: 5; }
+  nav.indice .contenedor { display: flex; flex-wrap: wrap; gap: 4px 18px; padding-top: 10px; padding-bottom: 10px; }
+  nav.indice a { color: #fff; text-decoration: none; font-size: 14px; white-space: nowrap; }
+  nav.indice a:hover { text-decoration: underline; }
+  main { padding: 24px 0 8px; }
+  section { background: #fff; border: 1px solid var(--borde); border-radius: 6px; padding: 22px 24px; margin-bottom: 22px; }
+  h2 { color: var(--azul); font-size: 21px; margin: 0 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--azul-claro); }
+  h3 { color: var(--azul); font-size: 17px; margin: 20px 0 8px; }
+  p { margin: 8px 0; }
+  a { color: var(--azul-medio); }
+  .ficha { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .ficha div { background: var(--azul-claro); border-radius: 6px; padding: 14px 16px; }
+  .ficha h3 { margin-top: 0; }
+  .ficha ul { margin: 0; padding-left: 18px; }
+  .tabla { width: 100%; overflow-x: auto; margin: 10px 0 6px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { background: var(--azul); color: #fff; text-align: left; padding: 8px 10px; font-weight: bold; }
+  td { border-bottom: 1px solid var(--borde); padding: 7px 10px; vertical-align: top; }
+  tr:nth-child(even) td { background: #FAFBFD; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ok { color: var(--verde); font-weight: bold; }
+  .mal { color: var(--rojo); font-weight: bold; }
+  .obs { color: var(--ambar); font-weight: bold; }
+  .etq { display: inline-block; font-size: 11px; font-weight: bold; letter-spacing: .3px; padding: 1px 7px; border-radius: 10px; vertical-align: middle; margin-right: 4px; }
+  .etq.paper { background: var(--azul-claro); color: var(--azul); }
+  .etq.calc { background: var(--verde-claro); color: var(--verde); }
+  .etq.sup { background: var(--ambar-claro); color: var(--ambar); }
+  .paso { border-left: 4px solid var(--azul-medio); padding-left: 16px; margin: 18px 0 8px; }
+  .paso h3 { margin-top: 0; }
+  .por-que { background: var(--azul-claro); border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 15px; }
+  .hallazgo { background: var(--rojo-claro); border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 15px; }
+  .nota { background: var(--ambar-claro); border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 15px; }
+  figure { margin: 14px 0; text-align: center; }
+  figure img { max-width: 100%; height: auto; border: 1px solid var(--borde); border-radius: 4px; background: #fff; }
+  figcaption { font-size: 14px; color: var(--gris); margin-top: 6px; text-align: left; }
+  .formula { font-family: "Courier New", monospace; background: #F2F5F9; border: 1px solid var(--borde); border-radius: 4px; padding: 10px 12px; overflow-x: auto; white-space: pre; font-size: 14px; line-height: 1.5; }
+  code { font-family: "Courier New", monospace; background: #F2F5F9; padding: 1px 4px; border-radius: 3px; font-size: 14px; overflow-wrap: anywhere; }
+  .flujo { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+  .flujo span { background: var(--azul); color: #fff; border-radius: 4px; padding: 6px 10px; font-size: 14px; }
+  .flujo span.pend { background: #fff; color: var(--azul); border: 2px dashed var(--azul-medio); }
+  .flujo b { color: var(--azul-medio); }
+  .estado { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 12px 0; }
+  .estado div { border: 1px solid var(--borde); border-radius: 6px; padding: 12px; text-align: center; }
+  .estado .cifra { font-size: 26px; font-weight: bold; color: var(--azul); display: block; }
+  .estado small { color: var(--gris); }
+  ol li, ul li { margin: 4px 0; }
+  footer { border-top: 4px solid var(--azul); background: #fff; color: var(--gris); font-size: 13px; padding: 14px 0; margin-top: 10px; }
+  footer .contenedor { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  @media (max-width: 640px) {
+    .portada .contenedor { flex-direction: column; align-items: flex-start; }
+    .portada img { width: 72px; }
+    .portada h1 { font-size: 21px; }
+    section { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="portada">
+  <div class="contenedor">
+    <img src="assets/logo_uni.png" alt="Logo de la Universidad Nacional de Ingeniería">
+    <div>
+      <p class="inst">Universidad Nacional de Ingeniería · Facultad de Ingeniería Industrial y de Sistemas · Unidad de Posgrado</p>
+      <h1>Comprobación del modelo de un robot antropomórfico RRR de 3 GDL</h1>
+      <p class="sub">MIA-12 Robótica y Sistemas Autónomos · Trabajo final · Avance del Grupo 5</p>
+    </div>
+  </div>
+</header>
+
+<nav class="indice" aria-label="Secciones">
+  <div class="contenedor">
+    <a href="#equipo">Equipo</a>
+    <a href="#resumen">Resumen</a>
+    <a href="#requisitos">Requisitos</a>
+    <a href="#seleccion">Elección del paper</a>
+    <a href="#paper">Paper base</a>
+    <a href="#proceso">Comprobación</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#siguiente">Lo que sigue</a>
+    <a href="#consultas">Consultas</a>
+    <a href="#reproducir">Código</a>
+  </div>
+</nav>
+
+<main class="contenedor">
+
+<section id="equipo">
+  <h2>Datos del trabajo</h2>
+  <div class="ficha">
+    <div>
+      <h3>Grupo 5</h3>
+      <ul>
+        <li>René Abarca Urbano</li>
+        <li>Ángel Joel Alvarado Crisanto</li>
+        <li>Javier Alexander Fernández Purizaca</li>
+        <li>Carlos Pérez Pérez</li>
+        <li>Jorge Valega</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Curso</h3>
+      <ul>
+        <li>MIA-12 Robótica y Sistemas Autónomos</li>
+        <li>Maestría en Inteligencia Artificial, ciclo 2026-2, sección B</li>
+        <li>Docente: Mg. Wilson Dennis Reyes Vásquez</li>
+        <li>Fecha del avance: 15 de octubre de 2026</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:14px;font-size:14px;color:var(--gris)">
+    Para que se distinga el origen de cada dato, usamos tres etiquetas:
+    <span class="etq paper">PAPER</span> dato tomado del artículo (con tabla o ecuación),
+    <span class="etq calc">CÁLCULO</span> resultado que obtuvimos con nuestro código y
+    <span class="etq sup">SUPUESTO</span> decisión del grupo que debe validarse.
+  </p>
+</section>
+
+<section id="resumen">
+  <h2>Resumen del avance</h2>
+  <p>
+    Elegimos como paper base el artículo de <b>Urrea, Kern y Torres (2024)</b>, que modela los tres primeros ejes
+    (base, hombro y codo) de un robot SCORBOT-ER V plus: un brazo antropomórfico con tres articulaciones de revolución.
+    Con lo visto en clase (Denavit-Hartenberg, cinemática inversa geométrica y jacobiano) comprobamos el modelo
+    del paper y completamos la parte del modelado que el artículo no desarrolla.
+  </p>
+  <div class="flujo">
+    <span>1. Cinemática directa</span><b>→</b>
+    <span>2. Cinemática inversa</span><b>→</b>
+    <span>3. Espacio de trabajo</span><b>→</b>
+    <span>4. Jacobiano y singularidades</span><b>→</b>
+    <span>5. Revisión de la dinámica</span><b>→</b>
+    <span class="pend">Control</span><b>→</b>
+    <span class="pend">Dataset y red neuronal</span><b>→</b>
+    <span class="pend">Validación y demo</span>
+  </div>
+  <div class="estado">
+    <div><span class="cifra">35</span><small>fuentes revisadas para elegir el paper</small></div>
+    <div><span class="cifra">4 de 4</span><small>temas obligatorios de la primera parte resueltos</small></div>
+    <div><span class="cifra">2</span><small>erratas encontradas en la cinemática directa del paper (ecs. 9 y 13)</small></div>
+    <div><span class="cifra">&lt; 10⁻¹⁶ m</span><small>error de la cinemática inversa al volver con la directa</small></div>
+  </div>
+  <p>
+    Además, al rehacer la dinámica de Euler-Lagrange obtuvimos las mismas matrices C y G del paper y casi toda la matriz
+    de inercia M. La única diferencia está en los términos de acoplamiento M<sub>12</sub> y M<sub>13</sub>: con nuestra
+    derivación son cero. La explicamos en el paso 5 y la dejamos como consulta para la retroalimentación.
+  </p>
+</section>
+
+<section id="requisitos">
+  <h2>1. Qué pide el trabajo final</h2>
+  <h3>Requisitos del paper y del contenido (sesión 5, 14-10-2026)</h3>
+  <div class="tabla"><table>
+    <tr><th>Requisito</th><th>Detalle</th></tr>
+    <tr><td>Robot</td><td>Antropomórfico de 3 GDL con articulaciones solo de revolución (RRR); no se admiten prismáticas</td></tr>
+    <tr><td>Antigüedad</td><td>De 4 a 5 años como máximo</td></tr>
+    <tr><td>Tipo de fuente</td><td>Paper o tesis</td></tr>
+    <tr><td>Datos dinámicos</td><td>Masas, centros de masa y tensores de inercia, necesarios para la dinámica y para generar el dataset</td></tr>
+    <tr><td>Objetivo</td><td>Reproducir los resultados del paper con los métodos del curso y comparar</td></tr>
+    <tr><td>Contenido obligatorio de la primera parte</td><td>Cinemática directa, espacio de trabajo, cinemática inversa, jacobiano y singularidades. Es el insumo de la dinámica, y la dinámica es el insumo del dataset para la parte de IA</td></tr>
+  </table></div>
+  <h3>Rúbrica del proyecto final (sílabo, pp. 5-7)</h3>
+  <div class="tabla"><table>
+    <tr><th>Criterio</th><th class="num">Puntos</th><th>Cómo lo cubrimos</th></tr>
+    <tr><td>Planteamiento y relevancia del problema robótico</td><td class="num">3</td><td>Comprobar y completar el modelo de un brazo RRR de 3 GDL publicado, para seguir trayectorias cartesianas</td></tr>
+    <tr><td>Modelado cinemático y dinámico</td><td class="num">3</td><td><span class="ok">Avanzado:</span> pasos 1 a 5 de esta página</td></tr>
+    <tr><td>Diseño e implementación del control y/o planificación</td><td class="num">3</td><td>Pendiente: par calculado (reproducir el paper) y PID no lineal del curso</td></tr>
+    <tr><td>Integración de redes neuronales e IA</td><td class="num">3</td><td>Pendiente: red neuronal entrenada con un dataset generado desde nuestro modelo y comparada con la solución clásica</td></tr>
+    <tr><td>Evaluación y validación de resultados</td><td class="num">3</td><td>En curso: errores de la cinemática; luego RMS, RSD e IA como en el paper</td></tr>
+    <tr><td>Presentación y defensa</td><td class="num">5</td><td>Demo en simulación con Python</td></tr>
+    <tr><td><b>Total</b></td><td class="num"><b>20</b></td><td></td></tr>
+  </table></div>
+</section>
+
+<section id="seleccion">
+  <h2>2. Cómo elegimos el paper</h2>
+  <p>
+    Buscamos en fuentes de acceso abierto: revistas indexadas en inglés, tesis en español (incluido el repositorio de la UNI)
+    y trabajos que aplican redes neuronales a brazos de 3 GDL. Reunimos <b>35 fuentes únicas</b> y descartamos las que no
+    cumplían los requisitos. Las cuatro mejores las revisamos abriendo el PDF completo.
+  </p>
+  <div class="por-que">
+    <b>Por qué así:</b> el trabajo consiste en <i>comparar</i>. Un paper sin parámetros numéricos (longitudes, masas,
+    inercias) o sin resultados publicados no deja nada contra qué comparar. Por eso, además de la estructura RRR y el año,
+    exigimos tabla DH, parámetros dinámicos y resultados numéricos.
+  </div>
+  <div class="tabla"><table>
+    <tr><th>#</th><th>Fuente</th><th>Año</th><th>RRR</th><th>DH y longitudes</th><th>Masas, centros de masa e inercia</th><th>Resultados numéricos</th><th>Decisión</th></tr>
+    <tr><td>1</td><td>Urrea, Kern y Torres, <i>Applied Sciences</i> 14(23):11010</td><td>2024</td><td class="ok">Sí</td><td class="ok">Sí</td><td class="obs">Masas, centros de masa e I<sub>zz</sub></td><td class="ok">Sí (Tabla 12)</td><td class="ok">Elegido</td></tr>
+    <tr><td>2</td><td>Kern, Marrero y Urrea, <i>Processes</i> 11(12):3267</td><td>2023</td><td class="ok">Sí</td><td class="ok">Sí</td><td class="mal">Solo simbólicos</td><td class="ok">Sí</td><td>Apoyo</td></tr>
+    <tr><td>3</td><td>Susanto, Sumaryo y Hassan, <i>JRC</i> 6(5)</td><td>2025</td><td class="ok">Sí</td><td class="obs">Solo longitudes</td><td class="obs">Parcial</td><td class="mal">Inconsistentes</td><td class="mal">Descartado</td></tr>
+    <tr><td>4</td><td>Ruiz Alvarado, tesis UNI-FIM</td><td>2025</td><td class="ok">Sí</td><td class="ok">Sí</td><td class="mal">No</td><td class="ok">Sí</td><td>Apoyo (cinemática inversa y trayectorias)</td></tr>
+  </table></div>
+  <p>
+    <b>Por qué el n.º 1:</b> es la única fuente que reúne tabla DH, longitudes, masas, centros de masa, momentos de inercia,
+    fricción y resultados numéricos de seguimiento de trayectoria. Su parte de control (par calculado, PD-PI difuso, MPC)
+    coincide con los esquemas de la rúbrica.
+  </p>
+  <div class="nota">
+    <b>Reservas que tomamos en cuenta:</b> (a) el robot real tiene 5 ejes y el paper considera solo 3;
+    (b) el paper publica solo I<sub>zz</sub> y no el tensor de inercia completo. Ninguna de las fuentes revisadas desde 2021
+    publica el tensor completo.
+  </div>
+</section>
+
+<section id="paper">
+  <h2>3. El paper base</h2>
+  <p>
+    Urrea, C.; Kern, J.; Torres, V. <i>Design, Simulation, and Comparison of Advanced Control Strategies for a
+    3-Degree-of-Freedom Robot.</i> Applied Sciences 2024, 14, 11010.
+    <a href="https://doi.org/10.3390/app142311010">https://doi.org/10.3390/app142311010</a>.
+    Publicado el 27-11-2024, licencia CC BY 4.0.
+  </p>
+  <div class="ficha">
+    <div>
+      <h3>Tabla 2 · Parámetros DH <span class="etq paper">PAPER</span></h3>
+      <div class="tabla"><table>
+        <tr><th>Eslabón</th><th>θ</th><th>d</th><th>a</th><th>α</th></tr>
+        <tr><td>1</td><td>θ<sub>1</sub></td><td>l<sub>1</sub></td><td>0</td><td>90°</td></tr>
+        <tr><td>2</td><td>θ<sub>2</sub></td><td>0</td><td>l<sub>2</sub></td><td>0</td></tr>
+        <tr><td>3</td><td>θ<sub>3</sub></td><td>0</td><td>l<sub>3</sub></td><td>0</td></tr>
+      </table></div>
+    </div>
+    <div>
+      <h3>Tabla 3 · Parámetros físicos <span class="etq paper">PAPER</span></h3>
+      <div class="tabla"><table>
+        <tr><th></th><th class="num">Eslabón 1</th><th class="num">Eslabón 2</th><th class="num">Eslabón 3</th></tr>
+        <tr><td>l [m]</td><td class="num">0.32</td><td class="num">0.22</td><td class="num">0.22</td></tr>
+        <tr><td>l<sub>c</sub> [m]</td><td class="num">0</td><td class="num">0.052</td><td class="num">0.1376</td></tr>
+        <tr><td>m [kg]</td><td class="num">7.1402</td><td class="num">2.2483</td><td class="num">1.957</td></tr>
+        <tr><td>I<sub>zz</sub> [kg·m²]</td><td class="num">0.04624</td><td class="num">0.02595</td><td class="num">0.03616</td></tr>
+      </table></div>
+    </div>
+  </div>
+  <p>
+    <span class="etq paper">PAPER</span> Tabla 1: SCORBOT-ER V Plus, estructura articulada vertical, cinco ejes más pinza
+    (se consideran tres). Rangos: base 310°, hombro +130°/−35°, codo ±130°.
+    Tablas 10 y 11: seis puntos cartesianos de las secuencias A y B, todos a z = 0.11 m.
+    Tabla 12: índices RMS, RSD e IA de los tres controladores. El paper hace la simulación en MATLAB R2024a con Simscape Multibody.
+  </p>
+  <p>
+    <b>Lo que el paper no trae</b> y la primera parte del trabajo exige: cinemática inversa, espacio de trabajo,
+    jacobiano y singularidades. Tampoco usa redes neuronales; solo las menciona en la revisión de literatura.
+  </p>
+</section>
+
+<section id="proceso">
+  <h2>4. Proceso de comprobación, paso a paso</h2>
+  <p>
+    Implementamos todo en Python con <code>numpy</code>, <code>sympy</code> (cálculo simbólico, el equivalente de
+    <code>syms</code> en MATLAB) y <code>matplotlib</code>. Cada paso es un script independiente de la carpeta
+    <code>src/</code> y guarda sus resultados en <code>resultados/</code>.
+  </p>
+
+  <div class="paso">
+    <h3>Paso 1 · Cinemática directa: comparar con las ecuaciones del paper</h3>
+    <p><b>Qué hicimos:</b> armamos las matrices DH de la Tabla 2 con el método de clase, multiplicamos
+    <sup>0</sup>A<sub>1</sub>·<sup>1</sup>A<sub>2</sub>·<sup>2</sup>A<sub>3</sub> en forma simbólica y comparamos el
+    resultado, término a término, con las ecuaciones (9), (12), (13) y (14) tal como están impresas.</p>
+    <div class="por-que"><b>Por qué:</b> la cinemática directa es la base de todo lo demás (inversa, jacobiano, dinámica y
+    dataset). Si tiene un error, se arrastra a los pasos siguientes. Hacer la comparación en forma simbólica permite
+    asegurar la igualdad para cualquier ángulo, no solo en algunos puntos.</div>
+    <p><span class="etq calc">CÁLCULO</span> Posición del extremo obtenida por DH:</p>
+    <div class="formula">Px = cos θ1 · (l2 cos θ2 + l3 cos(θ2+θ3))
+Py = sin θ1 · (l2 cos θ2 + l3 cos(θ2+θ3))
+Pz = l1 + l2 sin θ2 + l3 sin(θ2+θ3)</div>
+    <div class="tabla"><table>
+      <tr><th>Ecuación del paper</th><th>Resultado de la comparación</th></tr>
+      <tr><td>(12) P<sub>x</sub></td><td class="ok">Coincide</td></tr>
+      <tr><td>(14) P<sub>z</sub></td><td class="ok">Coincide</td></tr>
+      <tr><td>(9) matriz <sup>1</sup>A<sub>2</sub></td><td><span class="mal">Errata:</span> en la fila 2, columna 4 dice l<sub>2</sub>C<sub>2</sub>; por la fila 2 de la tabla DH (a = l<sub>2</sub>, α = 0) debe ser l<sub>2</sub>S<sub>2</sub></td></tr>
+      <tr><td>(13) P<sub>y</sub></td><td><span class="mal">Errata:</span> la ecuación impresa, P<sub>y</sub> = l<sub>3</sub>S<sub>3</sub>C<sub>2</sub>C<sub>3</sub> − l<sub>3</sub>S<sub>1</sub>S<sub>2</sub>S<sub>3</sub> + l<sub>3</sub>S<sub>1</sub>C<sub>2</sub>, no es igual al producto DH</td></tr>
+    </table></div>
+    <div class="hallazgo"><b>Ejemplo numérico</b> <span class="etq calc">CÁLCULO</span> para q = (30°, 20°, −60°):
+      por DH, P = (0.3250, 0.1876, 0.2538) m; con la ec. (13) impresa, P<sub>y</sub> = 0.0464 m.
+      Como P<sub>x</sub> y P<sub>z</sub> sí coinciden, y P<sub>y</sub> debe ser P<sub>x</sub>·tan θ<sub>1</sub> por la simetría del brazo,
+      la ec. (13) se puede corregir a P<sub>y</sub> = S<sub>1</sub>(l<sub>2</sub>C<sub>2</sub> + l<sub>3</sub>C<sub>23</sub>).</div>
+    <figure>
+      <img style="width:720px" src="assets/figuras/fig1_errata_ec13.png" alt="Py calculado por DH y por la ecuación 13 del paper en función de theta1">
+      <figcaption><b>Figura 1.</b> P<sub>y</sub> en función de θ<sub>1</sub> (con θ<sub>2</sub> = 20° y θ<sub>3</sub> = −60°).
+      La curva continua sale del producto DH; la discontinua, de la ec. (13) tal como está impresa. Solo coinciden en algunos puntos.
+      Script: <code>src/paso1_verificacion_cinematica_directa.py</code>.</figcaption>
+    </figure>
+    <p>Lo más probable es que sean errores de transcripción: las ecuaciones (12) y (14), que salen de las mismas matrices,
+    sí son correctas. Para el resto del trabajo usamos el modelo DH comprobado.</p>
+  </div>
+
+  <div class="paso">
+    <h3>Paso 2 · Cinemática inversa geométrica sobre las trayectorias del paper</h3>
+    <p><b>Qué hicimos:</b> resolvimos la cinemática inversa con el método geométrico de clase y la aplicamos a los seis
+    puntos de las Tablas 10 y 11:</p>
+    <div class="formula">θ1 = atan2(y, x)
+r = √(x² + y²),   s = z − l1
+cos θ3 = (r² + s² − l2² − l3²) / (2 l2 l3),   sin θ3 = ±√(1 − cos² θ3)
+θ2 = atan2(s, r) − atan2(l3 sin θ3, l2 + l3 cos θ3)</div>
+    <div class="por-que"><b>Por qué:</b> el paper publica las trayectorias en coordenadas cartesianas, pero el robot se
+    controla en el espacio articular. Para comparar con sus resultados necesitamos los ángulos que corresponden a cada
+    punto. El signo de sin θ<sub>3</sub> da las dos soluciones (codo arriba y codo abajo), y los límites de la Tabla 1
+    deciden cuál puede usarse. Al final, cada solución se comprueba volviendo con la cinemática directa del paso 1.</div>
+    <div class="tabla"><table>
+      <tr><th>Punto (Tabla 10)</th><th class="num">x, y, z [m]</th><th class="num">θ1 [°]</th><th class="num">θ2 [°]</th><th class="num">θ3 [°]</th><th class="num">Error al volver [m]</th><th>Límites</th></tr>
+      <tr><td>P1 = P2 = P6</td><td class="num">0.25, 0.01, 0.11</td><td class="num">2.291</td><td class="num">2.057</td><td class="num">−84.130</td><td class="num">1.7·10⁻¹⁷</td><td class="ok">Dentro</td></tr>
+      <tr><td>P3</td><td class="num">0.25, 0.11, 0.11</td><td class="num">23.749</td><td class="num">0.907</td><td class="num">−76.924</td><td class="num">4.2·10⁻¹⁷</td><td class="ok">Dentro</td></tr>
+      <tr><td>P4</td><td class="num">0.15, 0.11, 0.11</td><td class="num">36.254</td><td class="num">1.922</td><td class="num">−100.777</td><td class="num">3.4·10⁻¹⁷</td><td class="ok">Dentro</td></tr>
+      <tr><td>P5</td><td class="num">0.15, 0.01, 0.11</td><td class="num">3.814</td><td class="num">−0.344</td><td class="num">−108.117</td><td class="num">5.2·10⁻¹⁷</td><td class="ok">Dentro</td></tr>
+    </table></div>
+    <p><span class="etq calc">CÁLCULO</span> La tabla muestra la solución de <b>codo arriba</b>. Las de <b>codo abajo</b> quedan
+    todas <span class="mal">fuera de límites</span>, porque piden θ<sub>2</sub> entre −76° y −108°, por debajo de los −35° del hombro
+    (P1: θ<sub>2</sub> = −82.073°). La secuencia B tiene los mismos puntos, salvo que P5 vuelve a (0.25, 0.01, 0.11).
+    El detalle de las dos secuencias y las dos soluciones está en <code>resultados/paso2_cinematica_inversa_tablas10_11.csv</code>.</p>
+    <p><span class="etq sup">SUPUESTO</span> Tomamos el cero de la tabla DH igual al cero de los ángulos de la Tabla 1, y el rango
+    de la base como ±155° (310° repartidos en forma simétrica). El paper no lo precisa.</p>
+    <figure>
+      <img style="width:680px" src="assets/figuras/fig2_ik_secuencia_A.png" alt="Postura del robot en cada punto de la secuencia A">
+      <figcaption><b>Figura 2.</b> Postura del brazo (codo arriba) en cada punto de la secuencia A, dibujada con los ángulos de la
+      cinemática inversa. Script: <code>src/paso2_cinematica_inversa_trayectorias.py</code>.</figcaption>
+    </figure>
+  </div>
+
+  <div class="paso">
+    <h3>Paso 3 · Espacio de trabajo</h3>
+    <p><b>Qué hicimos:</b> barrimos las tres articulaciones dentro de sus límites, calculamos la posición del extremo con la
+    cinemática directa y graficamos la nube de puntos en 3D y su corte en el plano del brazo (r, z).</p>
+    <div class="por-que"><b>Por qué:</b> define qué puntos puede alcanzar el robot. Sirve para comprobar que las trayectorias
+    del paper son alcanzables y, más adelante, para generar el dataset de la red neuronal solo con posturas válidas.</div>
+    <div class="tabla"><table>
+      <tr><th>Resultado <span class="etq calc">CÁLCULO</span></th><th class="num">Valor</th></tr>
+      <tr><td>Alcance máximo medido desde el hombro (l<sub>2</sub> + l<sub>3</sub>)</td><td class="num">0.44 m</td></tr>
+      <tr><td>Hueco interior alrededor del hombro, por el límite del codo de ±130°</td><td class="num">radio 0.186 m</td></tr>
+      <tr><td>Altura del extremo (mín. y máx.)</td><td class="num">−0.026 m a 0.760 m</td></tr>
+      <tr><td>Distancia de los puntos de la Tabla 10 al hombro</td><td class="num">0.258 m a 0.345 m</td></tr>
+    </table></div>
+    <p>Los puntos de las Tablas 10 y 11 quedan dentro del espacio de trabajo, a más de 7 cm del hueco interior (0.186 m) y del alcance máximo (0.44 m). El radio de 0.44 m es menor
+    que el radio máximo de operación de 610 mm de la Tabla 1, porque ese valor corresponde al robot completo, con muñeca y pinza,
+    que el modelo de 3 ejes no incluye.</p>
+    <figure>
+      <img src="assets/figuras/fig3_espacio_trabajo.png" alt="Espacio de trabajo en 3D y corte en el plano del brazo">
+      <figcaption><b>Figura 3.</b> Izquierda: espacio de trabajo en 3D. Derecha: corte en el plano del brazo, con el hombro a
+      z = l<sub>1</sub> = 0.32 m. En rojo, los puntos de la Tabla 10. Script: <code>src/paso3_espacio_trabajo.py</code>.</figcaption>
+    </figure>
+  </div>
+
+  <div class="paso">
+    <h3>Paso 4 · Jacobiano y singularidades</h3>
+    <p><b>Qué hicimos:</b> calculamos el jacobiano por los dos métodos de clase: el <b>analítico</b> (derivada de la posición
+    respecto a θ<sub>1</sub>, θ<sub>2</sub> y θ<sub>3</sub>) y el <b>geométrico</b>
+    (J<sub>v,i</sub> = z<sub>i−1</sub> × (p − p<sub>i−1</sub>), J<sub>ω,i</sub> = z<sub>i−1</sub>). Después buscamos dónde el determinante se
+    hace cero.</p>
+    <div class="por-que"><b>Por qué:</b> el jacobiano relaciona las velocidades articulares con la velocidad del extremo y es
+    la base del control cinemático. Donde det(J) = 0 el robot pierde movilidad y las velocidades articulares se disparan.
+    Hay que saber si las trayectorias del paper pasan cerca de esas zonas.</div>
+    <p><span class="etq calc">CÁLCULO</span> Los dos métodos dan la misma parte lineal. Con r = l<sub>2</sub>C<sub>2</sub> + l<sub>3</sub>C<sub>23</sub>:</p>
+    <div class="formula">     ⎡ −S1·r    −C1(l2S2 + l3S23)    −C1·l3S23 ⎤             ⎡ 0    S1    S1 ⎤
+Jv = ⎢  C1·r    −S1(l2S2 + l3S23)    −S1·l3S23 ⎥        Jω = ⎢ 0   −C1   −C1 ⎥
+     ⎣   0       l2C2 + l3C23          l3C23   ⎦             ⎣ 1    0     0  ⎦
+
+det(Jv) = −l2 · l3 · sin θ3 · (l2 cos θ2 + l3 cos(θ2+θ3))</div>
+    <div class="tabla"><table>
+      <tr><th>Singularidad</th><th>Condición</th><th>Qué significa</th></tr>
+      <tr><td>De codo</td><td>sin θ<sub>3</sub> = 0 (θ<sub>3</sub> = 0°; 180° queda fuera de límites)</td><td>Brazo totalmente estirado: borde exterior del espacio de trabajo</td></tr>
+      <tr><td>De hombro</td><td>l<sub>2</sub>cos θ<sub>2</sub> + l<sub>3</sub>cos(θ<sub>2</sub>+θ<sub>3</sub>) = 0</td><td>El extremo queda sobre el eje de la base (z<sub>0</sub>) y θ<sub>1</sub> deja de estar definido</td></tr>
+    </table></div>
+    <div class="tabla"><table>
+      <tr><th>Punto (Tabla 10)</th><th class="num">det(Jv) [m³]</th><th class="num">Número de condición</th></tr>
+      <tr><td>P1 = P2 = P6</td><td class="num">0.012046</td><td class="num">2.87</td></tr>
+      <tr><td>P3</td><td class="num">0.012877</td><td class="num">3.24</td></tr>
+      <tr><td>P4</td><td class="num">0.008844</td><td class="num">2.22</td></tr>
+      <tr><td>P5</td><td class="num">0.006915</td><td class="num">2.02</td></tr>
+    </table></div>
+    <p>Ningún punto de la trayectoria está cerca de una singularidad: el determinante no se acerca a cero y el número de
+    condición es bajo (entre 2 y 3.3).</p>
+    <figure>
+      <img style="width:620px" src="assets/figuras/fig4_singularidades.png" alt="Mapa del determinante del jacobiano en el plano theta2 theta3">
+      <figcaption><b>Figura 4.</b> det(J<sub>v</sub>) en el plano (θ<sub>2</sub>, θ<sub>3</sub>) dentro de los límites del robot.
+      Las líneas negras marcan det = 0: la horizontal es la singularidad de codo y la diagonal, la de hombro. Los círculos
+      amarillos son los puntos de la Tabla 10. Script: <code>src/paso4_jacobiano_singularidades.py</code>.</figcaption>
+    </figure>
+  </div>
+
+  <div class="paso">
+    <h3>Paso 5 · Revisión del modelo dinámico (Euler-Lagrange)</h3>
+    <p><b>Qué hicimos:</b> rehicimos el lagrangiano con la geometría DH comprobada, con el centro de masa de cada eslabón sobre
+    su eje a la distancia l<sub>c</sub> de la Tabla 3:</p>
+    <div class="formula">M(q) = Σ [ m_i · Jv_ciᵀ Jv_ci  +  Jω_iᵀ · R_i I_i R_iᵀ · Jω_i ]
+G(q) = ∂U/∂q,   U = g (m2 z_c2 + m3 z_c3)
+C(q, q̇) con los símbolos de Christoffel de M</div>
+    <p>Comparamos el resultado con las ecuaciones (21) a (37) del paper.</p>
+    <div class="por-que"><b>Por qué:</b> la dinámica es el insumo del control por par calculado y del dataset de la parte de IA.
+    Antes de simular con el modelo del paper, conviene confirmar que es consistente con la geometría que acabamos de comprobar.</div>
+    <p><span class="etq sup">SUPUESTO</span> El paper publica solo I<sub>zz</sub>. Para comparar, usamos tensores diagonales e
+    igualamos I<sub>xx</sub> = I<sub>yy</sub> = I<sub>zz</sub> en los eslabones 2 y 3. Es lo que corresponde al término M<sub>11</sub>
+    del paper: nuestro M<sub>11</sub> general es I<sub>1zz</sub> + I<sub>xx2</sub>S<sub>2</sub>² + I<sub>yy2</sub>C<sub>2</sub>² + I<sub>xx3</sub>S<sub>23</sub>² + I<sub>yy3</sub>C<sub>23</sub>² + …,
+    y solo se convierte en el I<sub>1zz</sub> + I<sub>2zz</sub> + I<sub>3zz</sub> + … del paper con esa igualdad.</p>
+    <div class="tabla"><table>
+      <tr><th>Término</th><th>Paper</th><th>Nuestra derivación <span class="etq calc">CÁLCULO</span></th></tr>
+      <tr><td>M<sub>11</sub>, M<sub>22</sub>, M<sub>23</sub>, M<sub>33</sub></td><td>ecs. (21), (25), (26), (29)</td><td class="ok">Iguales</td></tr>
+      <tr><td>Vector C (Coriolis y centrífuga)</td><td>ecs. (31) a (33)</td><td class="ok">Igual</td></tr>
+      <tr><td>Vector G (gravedad)</td><td>ecs. (35) a (37)</td><td class="ok">Igual</td></tr>
+      <tr><td>M<sub>12</sub> = M<sub>21</sub></td><td>I<sub>2zz</sub> + I<sub>3zz</sub></td><td class="obs">0</td></tr>
+      <tr><td>M<sub>13</sub> = M<sub>31</sub></td><td>I<sub>3zz</sub></td><td class="obs">0</td></tr>
+    </table></div>
+    <div class="hallazgo"><b>Observación del grupo (por confirmar).</b> El eje de la base (z<sub>0</sub>, vertical) es perpendicular a
+    los ejes del hombro y del codo (z<sub>1</sub> y z<sub>2</sub>, horizontales), y los centros de masa están en el plano del brazo.
+    Por eso, acelerar solo el hombro no genera momento sobre el eje de la base, y M<sub>12</sub> = M<sub>13</sub> = 0. Los valores del paper
+    coinciden con la parte rotacional del acoplamiento de un brazo planar, en el que todos los ejes son paralelos y la velocidad angular
+    del eslabón 2 es θ̇<sub>1</sub> + θ̇<sub>2</sub>.<br>
+    En P1, con los datos de la Tabla 3: el paper da M<sub>12</sub> = 0.0621 kg·m² y M<sub>13</sub> = 0.0362 kg·m², frente a M<sub>11</sub> = 0.2261 kg·m².
+    Si el brazo parte del reposo y se acelera solo el hombro a 1 rad/s², el modelo del paper pide 0.0621 N·m en la base y el nuestro, 0.
+    Puede ser una de las razones por las que nuestros resultados de control no coincidan exactamente con la Tabla 12; lo analizaremos
+    al reproducirla.</div>
+    <p>Script: <code>src/paso5_revision_dinamica.py</code>. Resultados simbólicos y numéricos en <code>resultados/paso5_dinamica.json</code>.</p>
+  </div>
+</section>
+
+<section id="resultados">
+  <h2>5. Resumen de resultados</h2>
+  <div class="tabla"><table>
+    <tr><th>Tema</th><th>Qué publica el paper</th><th>Qué obtuvimos</th><th>Estado</th></tr>
+    <tr><td>Cinemática directa</td><td>Ecs. (8) a (14)</td><td>Producto DH simbólico; P<sub>x</sub> y P<sub>z</sub> coinciden</td><td class="obs">Erratas en ecs. (9) y (13)</td></tr>
+    <tr><td>Cinemática inversa</td><td>No la desarrolla</td><td>Solución geométrica con dos ramas; error &lt; 10⁻¹⁶ m en las Tablas 10 y 11</td><td class="ok">Completo</td></tr>
+    <tr><td>Espacio de trabajo</td><td>No lo desarrolla</td><td>Nube 3D y corte r–z con los límites de la Tabla 1</td><td class="ok">Completo</td></tr>
+    <tr><td>Jacobiano</td><td>No lo desarrolla</td><td>Analítico = geométrico; J<sub>v</sub> y J<sub>ω</sub></td><td class="ok">Completo</td></tr>
+    <tr><td>Singularidades</td><td>No las desarrolla</td><td>Codo (θ<sub>3</sub> = 0) y hombro (extremo sobre z<sub>0</sub>); trayectorias lejos de ellas</td><td class="ok">Completo</td></tr>
+    <tr><td>Dinámica</td><td>Ecs. (20) a (38)</td><td>M, C y G iguales salvo M<sub>12</sub> y M<sub>13</sub></td><td class="obs">Observación por confirmar</td></tr>
+    <tr><td>Control</td><td>Tabla 12 (RMS, RSD, IA)</td><td>—</td><td>Pendiente</td></tr>
+    <tr><td>Red neuronal</td><td>No usa</td><td>—</td><td>Pendiente</td></tr>
+  </table></div>
+  <h3>Resultados de control que buscaremos reproducir <span class="etq paper">PAPER</span> (Tabla 12, secuencia A)</h3>
+  <div class="tabla"><table>
+    <tr><th rowspan="2">Coordenada</th><th class="num" colspan="3">Par calculado PD</th><th class="num" colspan="3">PD-PI difuso</th><th class="num" colspan="3">MPC</th></tr>
+    <tr><th class="num">RMS</th><th class="num">RSD</th><th class="num">IA</th><th class="num">RMS</th><th class="num">RSD</th><th class="num">IA</th><th class="num">RMS</th><th class="num">RSD</th><th class="num">IA</th></tr>
+    <tr><td>X</td><td class="num">0.0720</td><td class="num">0.1595</td><td class="num">0.9940</td><td class="num">0.0641</td><td class="num">0.0133</td><td class="num">0.9989</td><td class="num">0.0675</td><td class="num">0.0161</td><td class="num">0.9981</td></tr>
+    <tr><td>Y</td><td class="num">0.0904</td><td class="num">0.1731</td><td class="num">0.9885</td><td class="num">0.0742</td><td class="num">0.0451</td><td class="num">0.9991</td><td class="num">0.0721</td><td class="num">0.0572</td><td class="num">0.9984</td></tr>
+    <tr><td>Z</td><td class="num">0.1447</td><td class="num">0.1443</td><td class="num">0.9709</td><td class="num">0.0563</td><td class="num">0.0246</td><td class="num">0.9976</td><td class="num">0.0981</td><td class="num">0.0401</td><td class="num">0.9979</td></tr>
+  </table></div>
+</section>
+
+<section id="siguiente">
+  <h2>6. Lo que sigue</h2>
+  <ol>
+    <li><b>Dinámica completa para simular.</b> Definir I<sub>xx</sub> e I<sub>yy</sub> con un modelo de barra o cilindro para cada eslabón
+      (supuesto declarado), agregar la fricción de la Tabla 3 e integrar las ecuaciones de movimiento.
+      <i>Por qué:</i> sin un modelo dinámico que pueda simularse no hay control por par calculado ni dataset.</li>
+    <li><b>Control y planificación.</b> Trayectorias trapezoidales entre los puntos de la secuencia A, control por par calculado PD
+      (como en el paper) y el PID no lineal del curso.
+      <i>Por qué:</i> permite comparar directamente con la Tabla 12 y cubre el criterio de control de la rúbrica.</li>
+    <li><b>Dataset y red neuronal.</b> Generar posturas válidas con nuestro modelo (paso 3) y entrenar una red MLP para la cinemática
+      inversa. Compararla con la solución geométrica del paso 2 en error de posición y tiempo de cálculo. Como extensión, una MLP para
+      identificar la dinámica.
+      <i>Por qué:</i> la rúbrica pide integrar redes neuronales y compararlas con el enfoque clásico. El dataset sale del propio modelo,
+      sin datos externos.</li>
+    <li><b>Validación.</b> Calcular RMS, RSD e IA, las ecuaciones (50) a (52) del paper, y analizar las diferencias, incluido el efecto de
+      M<sub>12</sub> y M<sub>13</sub>.</li>
+    <li><b>Demo.</b> Simulación animada en Python del brazo siguiendo la trayectoria, para la exposición.</li>
+  </ol>
+</section>
+
+<section id="consultas">
+  <h2>7. Consultas para la retroalimentación</h2>
+  <ol>
+    <li>¿Es aceptable el SCORBOT-ER V plus, un robot de 5 ejes que el paper modela con sus 3 primeros ejes (base, hombro y codo, todos de revolución)?</li>
+    <li>El paper publica solo I<sub>zz</sub>. ¿Basta con suponer I<sub>xx</sub> e I<sub>yy</sub> con un modelo de barra o cilindro, o se requiere un paper con el tensor completo?</li>
+    <li>¿Está de acuerdo con nuestra observación de que M<sub>12</sub> y M<sub>13</sub> deben ser cero en este robot?</li>
+  </ol>
+</section>
+
+<section id="reproducir">
+  <h2>8. Código y cómo reproducir los resultados</h2>
+  <p>Repositorio: <a href="https://github.com/carlosperez100/mia12-grupo5-robot-antropomorfico-3gdl">github.com/carlosperez100/mia12-grupo5-robot-antropomorfico-3gdl</a></p>
+  <div class="formula">git clone https://github.com/carlosperez100/mia12-grupo5-robot-antropomorfico-3gdl.git
+cd mia12-grupo5-robot-antropomorfico-3gdl
+pip install -r requirements.txt
+cd src
+python paso1_verificacion_cinematica_directa.py
+python paso2_cinematica_inversa_trayectorias.py
+python paso3_espacio_trabajo.py
+python paso4_jacobiano_singularidades.py
+python paso5_revision_dinamica.py</div>
+  <div class="tabla"><table>
+    <tr><th>Archivo</th><th>Contenido</th></tr>
+    <tr><td><code>src/modelo_robot.py</code></td><td>Parámetros del paper, DH, cinemática directa e inversa, jacobiano y límites</td></tr>
+    <tr><td><code>src/paso1_…</code> a <code>src/paso5_…</code></td><td>Un script por paso de esta página</td></tr>
+    <tr><td><code>resultados/</code></td><td>Salidas en JSON y CSV de cada paso</td></tr>
+    <tr><td><code>assets/figuras/</code></td><td>Figuras 1 a 4</td></tr>
+  </table></div>
+  <h3>Referencias</h3>
+  <ul>
+    <li>Urrea, C.; Kern, J.; Torres, V. (2024). Design, Simulation, and Comparison of Advanced Control Strategies for a 3-Degree-of-Freedom Robot. <i>Applied Sciences</i>, 14(23), 11010. <a href="https://doi.org/10.3390/app142311010">doi:10.3390/app142311010</a></li>
+    <li>Kern, J.; Marrero, D.; Urrea, C. (2023). Fuzzy Control Strategies Development for a 3-DoF Robotic Manipulator in Trajectory Tracking. <i>Processes</i>, 11(12), 3267. <a href="https://doi.org/10.3390/pr11123267">doi:10.3390/pr11123267</a></li>
+    <li>Ruiz Alvarado, J. D. (2025). <i>Diseño de trayectorias usando el método trapezoidal y el algoritmo de cinemática inversa de segundo orden aplicado al control tracking de un manipulador de tres grados de libertad</i>. Tesis de Ingeniero Mecatrónico, FIM, Universidad Nacional de Ingeniería. <a href="http://hdl.handle.net/20.500.14076/29401">hdl.handle.net/20.500.14076/29401</a></li>
+    <li>Universidad Nacional de Ingeniería, FIIS, Unidad de Posgrado. Sílabo de Robótica y Sistemas Autónomos, 2026-2 (rúbrica del proyecto final, pp. 5-7).</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <div class="contenedor">
+    <span>MIA-12 · Grupo 5 · Avance del trabajo final</span>
+    <span>UNI · FIIS · Unidad de Posgrado · 15-10-2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
