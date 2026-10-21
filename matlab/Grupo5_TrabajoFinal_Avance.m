@@ -14,6 +14,11 @@ nombres = {'P1 = P2 = P6', 'P3', 'P4', 'P5'};
 
 %% Paso 1. Cinemática directa: producto DH frente a las ecuaciones (9), (12), (13) y (14)
 fprintf('\n===== PASO 1. CINEMÁTICA DIRECTA =====\n');
+fprintf('Qué hacemos: multiplicamos las matrices DH de la Tabla 2 para obtener la posición de la punta del robot\n');
+fprintf('(x, y, z) en función de los tres ángulos, y la comparamos con las fórmulas impresas en el paper.\n');
+fprintf('Para qué: si una fórmula del paper estuviera mal, todo lo que se construye encima (cinemática inversa,\n');
+fprintf('jacobiano, dinámica) saldría mal.\n');
+fprintf('\n');
 syms t1 t2 t3 l1 l2 l3 real
 A1 = dh(t1, l1, 0, sym(pi)/2);
 A2 = dh(t2, 0, l2, 0);
@@ -47,6 +52,11 @@ title('Errata de la ec. (13)');
 
 %% Paso 2. Cinemática inversa geométrica sobre los puntos de las Tablas 10 y 11
 fprintf('\n===== PASO 2. CINEMÁTICA INVERSA (TABLAS 10 Y 11) =====\n');
+fprintf('Qué hacemos: el problema al revés. Para cada punto (x, y, z) de la trayectoria del paper calculamos los\n');
+fprintf('ángulos de la base, el hombro y el codo. Hay dos soluciones: codo arriba y codo abajo.\n');
+fprintf('Para qué: el robot se mueve girando sus articulaciones. Luego volvemos con la cinemática directa para\n');
+fprintf('comprobar que la punta llega al punto (error casi cero) y revisamos los límites de la Tabla 1.\n');
+fprintf('\n');
 fprintf('%-13s %-18s %9s %9s %9s %13s %8s %10s\n', 'Punto', 'x, y, z [m]', 'th1 [°]', 'th2 [°]', 'th3 [°]', 'error FK [m]', 'límites', 'det J');
 etiquetas = {'codo arriba', 'codo abajo'};
 for k = 1:size(unicos, 1)
@@ -77,6 +87,10 @@ title('Cinemática inversa en la secuencia A (codo arriba)');
 
 %% Paso 3. Espacio de trabajo con los límites de la Tabla 1
 fprintf('\n===== PASO 3. ESPACIO DE TRABAJO =====\n');
+fprintf('Qué hacemos: movemos las tres articulaciones dentro de sus límites y calculamos todos los puntos que\n');
+fprintf('alcanza la punta.\n');
+fprintf('Para qué: saber hasta dónde llega el robot y comprobar que los puntos del paper están a su alcance.\n');
+fprintf('\n');
 n = 45;
 [T1g, T2g, T3g] = ndgrid(linspace(LIM(1,1), LIM(1,2), n)*pi/180, ...
                          linspace(LIM(2,1), LIM(2,2), n)*pi/180, ...
@@ -109,6 +123,11 @@ title('Corte en el plano del brazo');
 
 %% Paso 4. Jacobiano analítico y geométrico; singularidades
 fprintf('\n===== PASO 4. JACOBIANO Y SINGULARIDADES =====\n');
+fprintf('Qué hacemos: calculamos el jacobiano, la matriz que convierte la velocidad de las articulaciones en\n');
+fprintf('velocidad de la punta, por los dos métodos de clase, y buscamos dónde su determinante vale cero.\n');
+fprintf('Para qué: donde det(J) = 0 (singularidad) el robot pierde un movimiento y los motores tendrían que\n');
+fprintf('girar muy rápido; la trayectoria debe pasar lejos de esas zonas.\n');
+fprintf('\n');
 q = [t1; t2; t3];
 Jan = simplify(jacobian(P, q));                          % derivada de la posición
 z0 = [0; 0; 1]; p0 = [0; 0; 0];
@@ -144,6 +163,11 @@ title('det(J_v) y singularidades (línea negra: det = 0)');
 
 %% Paso 5. Revisión del modelo dinámico de Euler-Lagrange (ecs. 21 a 37 del paper)
 fprintf('\n===== PASO 5. REVISIÓN DE LA DINÁMICA =====\n');
+fprintf('Qué hacemos: armamos las ecuaciones de movimiento de Euler-Lagrange (inercia M, Coriolis C y gravedad G)\n');
+fprintf('y las comparamos término a término con las del paper.\n');
+fprintf('Para qué: con este modelo se calcula el torque de cada motor; es la base del control y del dataset de\n');
+fprintf('la red neuronal.\n');
+fprintf('\n');
 syms lc2 lc3 m2 m3 gz I1zz Ixx2 Iyy2 I2zz Ixx3 Iyy3 I3zz positive
 syms d1 d2 d3 real
 dq = [d1; d2; d3];

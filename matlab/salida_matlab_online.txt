@@ -1,0 +1,81 @@
+
+===== PASO 1. CINEMÁTICA DIRECTA =====
+Px = cos(t1)*(l3*cos(t2 + t3) + l2*cos(t2))
+Py = sin(t1)*(l3*cos(t2 + t3) + l2*cos(t2))
+Pz = l1 + l3*sin(t2 + t3) + l2*sin(t2)
+Ec. (9), fila 2, columna 4: paper - DH = 2^(1/2)*l2*cos(t2 + pi/4) -> errata, debe ser l2*sin(theta2)
+Ec. (12) coincide con DH: sí
+Ec. (13) coincide con DH: no
+Ec. (14) coincide con DH: sí
+Ejemplo q = (30, 20, -60) grados: P_DH = (0.3250, 0.1876, 0.2538) m; Py con la ec. (13) = 0.0464 m
+
+===== PASO 2. CINEMÁTICA INVERSA (TABLAS 10 Y 11) =====
+Punto         x, y, z [m]          th1 [°]   th2 [°]   th3 [°]  error FK [m]  límites      det J
+P1 = P2 = P6  0.25, 0.01, 0.11       2.291     2.057   -84.130       1.7e-17   dentro   0.012046  (codo arriba)
+P1 = P2 = P6  0.25, 0.01, 0.11       2.291   -82.073    84.130       5.8e-17    fuera  -0.012046  (codo abajo)
+P3            0.25, 0.11, 0.11      23.749     0.907   -76.924       4.4e-17   dentro   0.012877  (codo arriba)
+P3            0.25, 0.11, 0.11      23.749   -76.018    76.924       2.0e-17    fuera  -0.012877  (codo abajo)
+P4            0.15, 0.11, 0.11      36.254     1.922  -100.777       3.4e-17   dentro   0.008844  (codo arriba)
+P4            0.15, 0.11, 0.11      36.254   -98.855   100.777       4.4e-17    fuera  -0.008844  (codo abajo)
+P5            0.15, 0.01, 0.11       3.814    -0.344  -108.117       9.5e-17   dentro   0.006915  (codo arriba)
+P5            0.15, 0.01, 0.11       3.814  -108.460   108.117       3.0e-17    fuera  -0.006915  (codo abajo)
+Secuencia B (Tabla 11): igual a la A, salvo P5 = (0.25, 0.01, 0.11), que repite la solución de P1.
+
+===== PASO 3. ESPACIO DE TRABAJO =====
+Alcance máximo desde el hombro: 0.4399 m (l2 + l3 = 0.44 m)
+Radio del hueco interior por el límite del codo (±130°): 0.186 m
+Altura del extremo: de -0.026 m a 0.760 m
+Distancia de los puntos de la Tabla 10 al hombro [m]: [0.3266 0.3445 0.2805 0.2583]
+
+===== PASO 4. JACOBIANO Y SINGULARIDADES =====
+Jacobiano analítico = geométrico (parte lineal): sí
+Jv =
+[-sin(t1)*(l3*cos(t2 + t3) + l2*cos(t2)), -cos(t1)*(l3*sin(t2 + t3) + l2*sin(t2)), -l3*sin(t2 + t3)*cos(t1)]
+[ cos(t1)*(l3*cos(t2 + t3) + l2*cos(t2)), -sin(t1)*(l3*sin(t2 + t3) + l2*sin(t2)), -l3*sin(t2 + t3)*sin(t1)]
+[                                      0,            l3*cos(t2 + t3) + l2*cos(t2),          l3*cos(t2 + t3)]
+ 
+Jw =
+[0,  sin(t1),  sin(t1)]
+[0, -cos(t1), -cos(t1)]
+[1,        0,        0]
+ 
+det(Jv) = -l2*l3*(l2*cos(t2)*sin(t3) - l3*sin(t2) + l3*cos(t3)^2*sin(t2) + l3*cos(t2)*cos(t3)*sin(t3))
+det(Jv) = -l2*l3*sin(theta3)*(l2*cos(theta2) + l3*cos(theta2 + theta3)): sí
+Punto              det(Jv)  número de condición
+P1 = P2 = P6      0.012046                 2.87
+P3                0.012877                 3.24
+P4                0.008844                 2.22
+P5                0.006915                 2.02
+
+===== PASO 5. REVISIÓN DE LA DINÁMICA =====
+M (nuestra derivación, tensor de inercia diagonal general):
+[I1zz + Ixx2/2 + Ixx3/2 + Iyy2/2 + Iyy3/2 - (Ixx3*cos(2*t2 + 2*t3))/2 + (Iyy3*cos(2*t2 + 2*t3))/2 + (l2^2*m3)/2 + (lc2^2*m2)/2 + (lc3^2*m3)/2 - (Ixx2*cos(2*t2))/2 + (Iyy2*cos(2*t2))/2 + (lc3^2*m3*cos(2*t2 + 2*t3))/2 + (l2^2*m3*cos(2*t2))/2 + (lc2^2*m2*cos(2*t2))/2 + l2*lc3*m3*cos(t3) + l2*lc3*m3*cos(2*t2 + t3),                                                                 0,                                   0]
+[                                                                                                                                                                                                                                                                                                                     0, m3*l2^2 + 2*m3*cos(t3)*l2*lc3 + m2*lc2^2 + m3*lc3^2 + I2zz + I3zz, m3*lc3^2 + l2*m3*cos(t3)*lc3 + I3zz]
+[                                                                                                                                                                                                                                                                                                                     0,                               m3*lc3^2 + l2*m3*cos(t3)*lc3 + I3zz,                     m3*lc3^2 + I3zz]
+ 
+M nuestra (Ixx = Iyy = Izz) - M paper =
+[            0, - I2zz - I3zz, -I3zz]
+[- I2zz - I3zz,             0,     0]
+[        -I3zz,             0,     0]
+ 
+C nuestra (Ixx = Iyy = Izz) - C paper =
+[0, 0, 0]
+ 
+G nuestra - G paper =
+[0, 0, 0]
+ 
+Comprobación numérica: max|dM| fuera de M12 y M13 = 0.0e+00; max|dC| = 0.0e+00; max|dG| = 0.0e+00
+M nuestra en P1 [kg·m^2]:
+    0.2261         0         0
+         0    0.2121    0.0793
+         0    0.0793    0.0732
+
+M paper en P1 [kg·m^2]:
+    0.2261    0.0621    0.0362
+    0.0621    0.2121    0.0793
+    0.0362    0.0793    0.0732
+
+Torque de inercia para qdd = (0, 1, 0) rad/s^2: nuestro (0.00000, 0.21208, 0.07927) N·m; paper (0.06211, 0.21208, 0.07927) N·m
+
+Listo: pasos 1 a 5 ejecutados.
+>> 

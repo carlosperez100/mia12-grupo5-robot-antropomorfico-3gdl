@@ -40,6 +40,16 @@ python paso5_revision_dinamica.py
 
 Las salidas se guardan en `resultados/` (JSON y CSV) y en `assets/figuras/` (PNG). Probado con Python 3.13, numpy 2.3, sympy 1.14 y matplotlib 3.10.
 
+### En MATLAB Online
+
+El script [`matlab/Grupo5_TrabajoFinal_Avance.m`](matlab/Grupo5_TrabajoFinal_Avance.m) repite los cinco pasos, solo con MATLAB base y Symbolic Math Toolbox. Antes de cada paso imprime qué se hace y para qué. Para ejecutarlo, pega esta línea en la ventana de comandos:
+
+```matlab
+websave('Grupo5_TrabajoFinal_Avance.m', 'https://raw.githubusercontent.com/carlosperez100/mia12-grupo5-robot-antropomorfico-3gdl/main/matlab/Grupo5_TrabajoFinal_Avance.m'); Grupo5_TrabajoFinal_Avance
+```
+
+Los resultados coinciden con los de Python. La salida completa está en `matlab/salida_matlab_online.txt` y las capturas, en `matlab/capturas/`.
+
 ## Estructura
 
 ```
@@ -47,6 +57,7 @@ index.html          página del avance (GitHub Pages)
 src/                modelo del robot y un script por paso
 resultados/         salidas numéricas y simbólicas
 assets/figuras/     figuras usadas en la página
+matlab/             los cinco pasos en MATLAB, su salida y capturas de MATLAB Online
 articulos/          catálogo de los 41 artículos revisados y PDF con licencia abierta
 ```
 
