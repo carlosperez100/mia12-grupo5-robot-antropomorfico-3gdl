@@ -8,6 +8,8 @@ Docente: Mg. Wilson Dennis Reyes Vásquez
 
 Página con el avance y los resultados: **https://carlosperez100.github.io/mia12-grupo5-robot-antropomorfico-3gdl/**
 
+Documento PDF que explica cada paso con su figura y su relación con el curso: [`docs/Grupo5_Avance_explicado_paso_a_paso.pdf`](docs/Grupo5_Avance_explicado_paso_a_paso.pdf)
+
 ## De qué trata
 
 Avance del trabajo final del curso. Tomamos como paper base:

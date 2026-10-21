@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIA-12 · Grupo 5 · Avance explicado</title>
+<style>
+  :root { --azul: #1F3A5F; --azul-medio: #2F6FB0; --azul-claro: #E8EEF6; --texto: #1E2833; --gris: #5B6B7C; --borde: #D3DCE7;
+          --verde: #1E7B4F; --verde-claro: #E3F3EA; --rojo: #B03A2E; --rojo-claro: #FBE9E7; --ambar: #8A5A00; --ambar-claro: #FFF4DC; }
+  @page { size: A4; margin: 18mm 16mm 18mm 16mm;
+          @bottom-left { content: "MIA-12 · Grupo 5 · Avance del trabajo final explicado paso a paso"; font: 8.5pt Arial, sans-serif; color: #5B6B7C; }
+          @bottom-right { content: "Página " counter(page) " de " counter(pages); font: 8.5pt Arial, sans-serif; color: #5B6B7C; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; line-height: 1.45; color: var(--texto); background: #fff; }
+  .pagina { page-break-after: always; break-after: page; }
+  .pagina:last-child { page-break-after: auto; break-after: auto; }
+  h1 { color: var(--azul); font-size: 20pt; margin: 0 0 6px; line-height: 1.2; }
+  h2 { color: var(--azul); font-size: 15pt; margin: 0 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--azul); }
+  h3 { color: var(--azul); font-size: 11.5pt; margin: 12px 0 4px; }
+  p { margin: 5px 0; }
+  ul, ol { margin: 4px 0 4px 18px; padding: 0; }
+  li { margin: 2px 0; }
+  .portada { text-align: center; padding-top: 18mm; }
+  .portada img.logo { width: 34mm; }
+  .portada .inst { color: var(--gris); font-size: 11pt; margin-top: 8px; }
+  .portada .curso { color: var(--azul-medio); font-weight: bold; font-size: 12.5pt; margin: 16px 0 26px; }
+  .portada table { margin: 18px auto 0; width: 80%; }
+  .portada .fecha { margin-top: 26px; color: var(--gris); }
+  .curso-box { background: var(--azul-claro); border-left: 4px solid var(--azul); border-radius: 4px; padding: 7px 11px; margin: 6px 0 8px; font-size: 10pt; }
+  .curso-box b { color: var(--azul); }
+  .simple { background: var(--verde-claro); border-left: 4px solid var(--verde); border-radius: 4px; padding: 7px 11px; margin: 6px 0; }
+  .hallazgo { background: var(--rojo-claro); border-left: 4px solid var(--rojo); border-radius: 4px; padding: 7px 11px; margin: 6px 0; }
+  .nota { background: var(--ambar-claro); border-left: 4px solid var(--ambar); border-radius: 4px; padding: 7px 11px; margin: 6px 0; font-size: 9.8pt; }
+  table { border-collapse: collapse; width: 100%; font-size: 9.5pt; margin: 6px 0; }
+  th { background: var(--azul); color: #fff; text-align: left; padding: 5px 7px; }
+  td { border-bottom: 1px solid var(--borde); padding: 4px 7px; vertical-align: top; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  figure { margin: 8px 0; text-align: center; break-inside: avoid; }
+  figure img { max-width: 100%; border: 1px solid var(--borde); }
+  figcaption { font-size: 9pt; color: var(--gris); text-align: left; margin-top: 3px; }
+  .formula { font-family: "Courier New", monospace; background: #F2F5F9; border: 1px solid var(--borde); border-radius: 3px; padding: 6px 9px; white-space: pre; font-size: 9pt; line-height: 1.4; margin: 6px 0; }
+  .flujo { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin: 8px 0; font-size: 9pt; }
+  .flujo span { background: var(--azul); color: #fff; border-radius: 3px; padding: 4px 7px; }
+  .flujo span.pend { background: #fff; color: var(--azul); border: 1.5px dashed var(--azul-medio); }
+  .ok { color: var(--verde); font-weight: bold; } .mal { color: var(--rojo); font-weight: bold; } .obs { color: var(--ambar); font-weight: bold; }
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pequeno { font-size: 9pt; color: var(--gris); }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<section class="pagina portada">
+  <img class="logo" src="../assets/logo_uni.png" alt="Logo UNI">
+  <div class="inst">Universidad Nacional de Ingeniería<br>Facultad de Ingeniería Industrial y de Sistemas · Unidad de Posgrado<br>Maestría en Inteligencia Artificial</div>
+  <div class="curso">MIA-12 Robótica y Sistemas Autónomos · Trabajo final</div>
+  <h1>Avance del trabajo final explicado paso a paso</h1>
+  <p style="font-size:12pt;color:var(--gris)">Qué hace cada paso, qué figura produce y con qué tema del curso se relaciona</p>
+  <table>
+    <tr><th>Grupo 5</th><th>Docente</th></tr>
+    <tr><td>René Abarca Urbano<br>Ángel Joel Alvarado Crisanto<br>Javier Alexander Fernández Purizaca<br>Carlos Pérez Pérez<br>Jorge Valega</td>
+        <td>Mg. Wilson Dennis Reyes Vásquez<br><br><span class="pequeno">Ciclo 2026-2 · Sección B</span></td></tr>
+  </table>
+  <p style="margin-top:18px">Paper base: Urrea, C.; Kern, J.; Torres, V. (2024). <i>Design, Simulation, and Comparison of Advanced Control Strategies
+  for a 3-Degree-of-Freedom Robot.</i> Applied Sciences, 14(23), 11010. https://doi.org/10.3390/app142311010</p>
+  <p class="pequeno">Código: https://github.com/carlosperez100/mia12-grupo5-robot-antropomorfico-3gdl</p>
+  <div class="fecha">Lima, 21 de octubre de 2026</div>
+</section>
+
+<!-- 1. EL PROBLEMA -->
+<section class="pagina">
+  <h2>1. De qué trata el trabajo</h2>
+  <p>El trabajo final pide tomar un paper de un <b>robot antropomórfico de 3 GDL con articulaciones solo de revolución (RRR)</b> y
+  <b>comprobar sus resultados con los métodos del curso</b>. Elegimos el paper de Urrea, Kern y Torres (2024), que modela los tres
+  primeros ejes de un robot SCORBOT-ER V plus: la <b>base</b> (gira a la izquierda y a la derecha), el <b>hombro</b> y el <b>codo</b>
+  (suben y bajan el brazo).</p>
+  <figure>
+    <img src="../assets/figuras/fig0_esquema_robot.png" alt="Esquema del robot" style="width:86%">
+    <figcaption><b>Figura 0.</b> El robot del paper. Los tres ángulos que se pueden mover son θ1 (base), θ2 (hombro) y θ3 (codo). Las
+    longitudes l1, l2 y l3 son las de la Tabla 3 del paper. La "punta" es el extremo del brazo, donde iría la herramienta.</figcaption>
+  </figure>
+  <div class="simple"><b>En una frase:</b> todo el trabajo consiste en relacionar los <b>tres ángulos</b> del robot con la
+  <b>posición de la punta</b> (cinemática), con su <b>velocidad</b> (jacobiano) y con las <b>fuerzas de los motores</b> (dinámica).
+  Cada paso usa el resultado del anterior.</div>
+  <div class="flujo">
+    <span>1. Cinemática directa</span>→<span>2. Cinemática inversa</span>→<span>3. Espacio de trabajo</span>→
+    <span>4. Jacobiano y singularidades</span>→<span>5. Dinámica</span>→<span class="pend">Control</span>→<span class="pend">Red neuronal</span>
+  </div>
+  <h3>Relación de cada paso con el curso</h3>
+  <table>
+    <tr><th>Paso del trabajo</th><th>Tema del sílabo</th><th>Semana</th><th>Lo que vimos en clase</th></tr>
+    <tr><td>1. Cinemática directa</td><td>Matrices de transformación homogénea; algoritmo de Denavit-Hartenberg</td><td>1 y 2</td><td>Sesión 2 (23-09): cinemática directa del SCARA G1 por el método geométrico, MTH y DH</td></tr>
+    <tr><td>2. Cinemática inversa</td><td>Cinemática inversa por el método geométrico</td><td>3</td><td>Sesión 3 (30-09): dos soluciones (codo arriba y abajo) y el Ejm_1 del robot articular de 3 GDL, que fue nuestra tarea</td></tr>
+    <tr><td>3. Espacio de trabajo</td><td>Cinemática directa (alcance del robot)</td><td>2</td><td>Sesión 2: espacio de trabajo del SCARA G1</td></tr>
+    <tr><td>4. Jacobiano y singularidades</td><td>Cinemática diferencial: jacobiano analítico y geométrico</td><td>4</td><td>Sesión 4 (07-10): jacobiano del SCARA de 4 GDL, que fue nuestro video</td></tr>
+    <tr><td>5. Dinámica</td><td>Modelo dinámico por la formulación de Lagrange</td><td>10</td><td>Todavía no visto en clase: lo adelantamos para revisar el paper</td></tr>
+  </table>
+  <p class="pequeno">Fuente de los temas y semanas: sílabo del curso, contenido analítico por sesión (pp. 2-4). En la sesión 5 (14-10) se
+  indicó que la primera parte obligatoria del trabajo es cinemática directa, espacio de trabajo, cinemática inversa, jacobiano y
+  singularidades, que luego sirven de insumo a la dinámica y al dataset de la parte de IA.</p>
+</section>
+
+<!-- PASO 1 -->
+<section class="pagina">
+  <h2>Paso 1 · Cinemática directa</h2>
+  <div class="curso-box"><b>Tema del curso:</b> semanas 1 y 2 del sílabo (MTH y algoritmo de Denavit-Hartenberg). En la sesión 2
+  lo aplicamos al SCARA G1; aquí lo aplicamos al robot del paper.</div>
+  <div class="simple"><b>En palabras simples:</b> si sabemos cuánto giró cada articulación (θ1, θ2, θ3), ¿dónde queda la punta del
+  robot? La respuesta es una fórmula para x, y, z.</div>
+  <h3>Qué hicimos</h3>
+  <p>Con la tabla DH del paper (Tabla 2) armamos una matriz de transformación por articulación y las multiplicamos, igual que en
+  clase: <sup>0</sup>T<sub>3</sub> = <sup>0</sup>A<sub>1</sub> · <sup>1</sup>A<sub>2</sub> · <sup>2</sup>A<sub>3</sub>. La última columna de esa
+  matriz es la posición de la punta:</p>
+  <div class="formula">x = cos θ1 · (l2 cos θ2 + l3 cos(θ2+θ3))
+y = sin θ1 · (l2 cos θ2 + l3 cos(θ2+θ3))
+z = l1 + l2 sin θ2 + l3 sin(θ2+θ3)</div>
+  <p>Después comparamos estas fórmulas, en forma simbólica, con las que el paper imprimió en sus ecuaciones (9), (12), (13) y (14).</p>
+  <h3>Qué obtuvimos</h3>
+  <table>
+    <tr><th>Ecuación del paper</th><th>Resultado</th></tr>
+    <tr><td>(12) coordenada x</td><td class="ok">Coincide</td></tr>
+    <tr><td>(14) coordenada z</td><td class="ok">Coincide</td></tr>
+    <tr><td>(9) matriz <sup>1</sup>A<sub>2</sub></td><td><span class="mal">Errata:</span> en la fila 2 dice l2·cos θ2 y debe decir l2·sin θ2</td></tr>
+    <tr><td>(13) coordenada y</td><td><span class="mal">Errata:</span> la fórmula impresa no es igual a la de DH</td></tr>
+  </table>
+  <figure>
+    <img src="../assets/figuras/fig1_errata_ec13.png" alt="Errata de la ecuación 13" style="width:78%">
+    <figcaption><b>Figura 1. Cómo leerla:</b> se deja fijo el hombro (20°) y el codo (−60°) y se gira la base de −155° a 155°. La línea
+    azul es la coordenada y calculada con DH; la roja punteada, la que da la ec. (13) del paper. Si la ecuación estuviera bien, las
+    dos curvas serían la misma. Por ejemplo, con θ = (30°, 20°, −60°), DH da y = 0.1876 m y la ec. (13) da 0.0464 m.</figcaption>
+  </figure>
+  <p><b>Por qué importa:</b> todo lo que sigue se construye sobre la cinemática directa. Por eso usamos nuestra versión comprobada y no
+  las ecuaciones (9) y (13) del paper.</p>
+</section>
+
+<!-- PASO 2 -->
+<section class="pagina">
+  <h2>Paso 2 · Cinemática inversa</h2>
+  <div class="curso-box"><b>Tema del curso:</b> semana 3 del sílabo (cinemática inversa por el método geométrico). Es el mismo
+  procedimiento del Ejm_1 de la sesión 3 (robot articular de 3 GDL), que el grupo resolvió como tarea.</div>
+  <div class="simple"><b>En palabras simples:</b> es el problema al revés. Si queremos que la punta llegue a un punto (x, y, z), ¿cuánto
+  debe girar cada articulación? Hace falta porque el robot no mueve la punta directamente: mueve sus motores.</div>
+  <h3>Qué hicimos</h3>
+  <p>Aplicamos el método geométrico de clase a los puntos de la trayectoria que publica el paper (Tablas 10 y 11):</p>
+  <div class="formula">θ1 = atan2(y, x)                                   (giro de la base hacia el punto)
+r = √(x² + y²),  s = z − l1                          (el punto visto en el plano del brazo)
+cos θ3 = (r² + s² − l2² − l3²) / (2·l2·l3)            (ley de cosenos)
+sin θ3 = ±√(1 − cos² θ3)                             (dos soluciones: codo arriba o codo abajo)
+θ2 = atan2(s, r) − atan2(l3·sin θ3, l2 + l3·cos θ3)    (θ2 = α − β, como en clase)</div>
+  <p>Luego <b>comprobamos</b> cada respuesta: metimos los ángulos en la cinemática directa del paso 1 y vimos si la punta llegaba al punto.</p>
+  <h3>Qué obtuvimos (secuencia A, solución codo arriba)</h3>
+  <table>
+    <tr><th>Punto</th><th class="num">x, y, z [m]</th><th class="num">θ1 [°]</th><th class="num">θ2 [°]</th><th class="num">θ3 [°]</th><th class="num">Error al volver [m]</th></tr>
+    <tr><td>P1 = P2 = P6</td><td class="num">0.25, 0.01, 0.11</td><td class="num">2.291</td><td class="num">2.057</td><td class="num">−84.130</td><td class="num">1.7·10⁻¹⁷</td></tr>
+    <tr><td>P3</td><td class="num">0.25, 0.11, 0.11</td><td class="num">23.749</td><td class="num">0.907</td><td class="num">−76.924</td><td class="num">4.2·10⁻¹⁷</td></tr>
+    <tr><td>P4</td><td class="num">0.15, 0.11, 0.11</td><td class="num">36.254</td><td class="num">1.922</td><td class="num">−100.777</td><td class="num">3.4·10⁻¹⁷</td></tr>
+    <tr><td>P5</td><td class="num">0.15, 0.01, 0.11</td><td class="num">3.814</td><td class="num">−0.344</td><td class="num">−108.117</td><td class="num">5.2·10⁻¹⁷</td></tr>
+  </table>
+  <p>El error es prácticamente cero: la cinemática inversa es correcta. La solución <b>codo abajo</b> se descarta porque pide al hombro
+  bajar entre −76° y −108°, y el SCORBOT solo baja hasta −35° (Tabla 1 del paper).</p>
+  <figure>
+    <img src="../assets/figuras/fig2_ik_secuencia_A.png" alt="Posturas del robot" style="width:58%">
+    <figcaption><b>Figura 2. Cómo leerla:</b> cada línea de color es el brazo dibujado con los ángulos calculados (base, hombro y codo);
+    la línea negra punteada es la trayectoria del paper, un rectángulo a 11 cm de altura. Todas las puntas caen sobre las esquinas.</figcaption>
+  </figure>
+</section>
+
+<!-- PASO 3 -->
+<section class="pagina">
+  <h2>Paso 3 · Espacio de trabajo</h2>
+  <div class="curso-box"><b>Tema del curso:</b> semana 2 del sílabo. En la sesión 2 dibujamos el espacio de trabajo del SCARA G1
+  barriendo sus articulaciones; aquí hacemos lo mismo con el robot del paper.</div>
+  <div class="simple"><b>En palabras simples:</b> ¿hasta dónde llega el robot? Movemos las tres articulaciones por todo su rango y
+  marcamos cada punto donde puede quedar la punta. La nube de puntos es el espacio de trabajo.</div>
+  <h3>Qué hicimos</h3>
+  <p>Barrimos θ1 de −155° a 155°, θ2 de −35° a 130° y θ3 de −130° a 130° (límites de la Tabla 1), calculamos la punta con la
+  cinemática directa y graficamos la nube en 3D y su corte de perfil.</p>
+  <figure>
+    <img src="../assets/figuras/fig3_espacio_trabajo.png" alt="Espacio de trabajo">
+    <figcaption><b>Figura 3. Cómo leerla:</b> a la izquierda, todos los puntos que alcanza la punta (forma de esfera hueca). A la
+    derecha, el mismo espacio visto de perfil: el cuadrado negro es el hombro y los puntos rojos son los de la trayectoria del paper.
+    El hueco blanco del centro aparece porque el codo no se dobla más de 130° y la punta no puede acercarse tanto al hombro.</figcaption>
+  </figure>
+  <h3>Qué obtuvimos</h3>
+  <table>
+    <tr><th>Resultado</th><th class="num">Valor</th></tr>
+    <tr><td>Alcance máximo desde el hombro (l2 + l3)</td><td class="num">0.44 m</td></tr>
+    <tr><td>Radio del hueco interior, por el límite del codo</td><td class="num">0.186 m</td></tr>
+    <tr><td>Altura de la punta (mínima y máxima)</td><td class="num">−0.026 m a 0.760 m</td></tr>
+    <tr><td>Distancia de los puntos del paper al hombro</td><td class="num">0.258 m a 0.345 m</td></tr>
+  </table>
+  <p><b>Por qué importa:</b> confirma que la trayectoria del paper es alcanzable, a más de 7 cm de los bordes. También servirá para
+  generar el dataset de la red neuronal solo con posturas que el robot puede alcanzar de verdad.</p>
+</section>
+
+<!-- PASO 4 -->
+<section class="pagina">
+  <h2>Paso 4 · Jacobiano y singularidades</h2>
+  <div class="curso-box"><b>Tema del curso:</b> semana 4 del sílabo (cinemática diferencial: jacobiano analítico y geométrico).
+  En la sesión 4 lo calculamos para el SCARA de 4 GDL; aquí usamos los mismos dos métodos con el robot del paper.</div>
+  <div class="simple"><b>En palabras simples:</b> el jacobiano J es una matriz que responde: si cada motor gira a cierta velocidad,
+  ¿a qué velocidad y en qué dirección se mueve la punta? (v = J · θ̇). Una <b>singularidad</b> es una postura donde el robot
+  "se traba": pierde una dirección de movimiento y, para seguir, los motores tendrían que girar muy rápido.</div>
+  <h3>Qué hicimos</h3>
+  <ul>
+    <li><b>Método analítico:</b> derivamos x, y, z del paso 1 respecto a θ1, θ2 y θ3.</li>
+    <li><b>Método geométrico:</b> cada columna es z<sub>i−1</sub> × (p − p<sub>i−1</sub>), con los ejes de giro de cada articulación.</li>
+    <li>Comparamos los dos (dieron lo mismo) y buscamos dónde el determinante vale cero:</li>
+  </ul>
+  <div class="formula">det(J) = −l2 · l3 · sin θ3 · (l2 cos θ2 + l3 cos(θ2+θ3))</div>
+  <table>
+    <tr><th>det(J) = 0 cuando…</th><th>Qué significa en el robot</th></tr>
+    <tr><td>sin θ3 = 0 (codo en 0°)</td><td>Brazo totalmente estirado: está en el borde de su alcance y no puede estirarse más</td></tr>
+    <tr><td>l2 cos θ2 + l3 cos(θ2+θ3) = 0</td><td>La punta queda justo encima del eje de la base; girar la base ya no la mueve</td></tr>
+  </table>
+  <figure>
+    <img src="../assets/figuras/fig4_singularidades.png" alt="Mapa de singularidades" style="width:60%">
+    <figcaption><b>Figura 4. Cómo leerla:</b> cada punto del mapa es una postura del hombro (eje horizontal) y del codo (eje vertical).
+    El color es el valor de det(J); las líneas negras son las singularidades (det = 0). Los círculos amarillos, que son las posturas
+    de la trayectoria del paper, están en zona roja intensa, lejos de las líneas.</figcaption>
+  </figure>
+  <p><b>Resultado:</b> en los puntos del paper, det(J) vale entre 0.0069 y 0.0129 m³ y el número de condición entre 2.0 y 3.2
+  (cuanto más cerca de 1, mejor). La trayectoria pasa lejos de las singularidades.</p>
+</section>
+
+<!-- PASO 5 -->
+<section class="pagina">
+  <h2>Paso 5 · Revisión de la dinámica</h2>
+  <div class="curso-box"><b>Tema del curso:</b> semana 10 del sílabo (modelo dinámico de un robot rígido por la formulación de
+  Lagrange). Todavía no se vio en clase; lo adelantamos porque el paper publica su modelo dinámico y hay que revisarlo antes de usarlo.</div>
+  <div class="simple"><b>En palabras simples:</b> la cinemática dice dónde está el robot; la <b>dinámica</b> dice qué <b>fuerza (torque)</b>
+  debe hacer cada motor para moverlo. La ecuación es τ = M(θ)·θ̈ + C(θ, θ̇) + G(θ): M es la inercia (cuánto cuesta acelerar el brazo),
+  C son los efectos de giro (Coriolis y centrífugo) y G es el peso.</div>
+  <h3>Qué hicimos</h3>
+  <p>Armamos el lagrangiano (energía cinética menos energía potencial) con las masas, centros de masa e inercias de la Tabla 3 del
+  paper y obtuvimos M, C y G en forma simbólica. Luego las comparamos término a término con las ecuaciones (21) a (37) del paper.</p>
+  <h3>Qué obtuvimos</h3>
+  <table>
+    <tr><th>Término</th><th>Comparación con el paper</th></tr>
+    <tr><td>Gravedad G y efectos de giro C</td><td class="ok">Iguales</td></tr>
+    <tr><td>Inercia: M11, M22, M23, M33</td><td class="ok">Iguales</td></tr>
+    <tr><td>Inercia: M12 y M13</td><td><span class="obs">Diferentes:</span> el paper da I2zz + I3zz e I3zz; nosotros obtenemos 0</td></tr>
+  </table>
+  <div class="hallazgo"><b>Observación del grupo (por confirmar con el docente).</b> La base gira sobre un eje vertical y el hombro y
+  el codo sobre ejes horizontales, perpendiculares al de la base. Por eso, acelerar solo el hombro no debería exigir torque a la base:
+  M12 = M13 = 0. Con los datos del paper, en el punto P1 su modelo pide 0.0621 N·m en la base para acelerar el hombro a 1 rad/s²;
+  el nuestro pide 0.</div>
+  <figure>
+    <img src="../matlab/capturas/matlab_online_paso_5.jpg" alt="Salida del paso 5 en MATLAB Online" style="width:92%">
+    <figcaption><b>Figura 5. Cómo leerla:</b> salida del paso 5 en MATLAB Online. "C nuestra − C paper" y "G nuestra − G paper" dan
+    [0, 0, 0], es decir, iguales. En las dos matrices M de P1 solo cambian las casillas fuera de la diagonal de la primera fila y
+    la primera columna (0.0621 y 0.0362 en el paper, 0 en nuestro modelo).</figcaption>
+  </figure>
+  <p><b>Por qué importa:</b> este modelo es la base del control por par calculado (semana 11) y del dataset para entrenar la red
+  neuronal (semanas 12 y 13).</p>
+</section>
+
+<!-- MATLAB -->
+<section class="pagina">
+  <h2>Cómo lo ejecutamos: Python y MATLAB Online</h2>
+  <p>Programamos los cinco pasos en Python (carpeta <code>src/</code> del repositorio) y los repetimos en MATLAB Online
+  (<code>matlab/Grupo5_TrabajoFinal_Avance.m</code>), solo con MATLAB base y Symbolic Math Toolbox, sin <code>rotx</code> ni toolboxes de
+  robótica. Los dos dan exactamente los mismos números. El script de MATLAB se ejecuta con una línea en la ventana de comandos:</p>
+  <div class="formula" style="white-space:pre-wrap">websave('Grupo5_TrabajoFinal_Avance.m', 'https://raw.githubusercontent.com/carlosperez100/mia12-grupo5-robot-antropomorfico-3gdl/main/matlab/Grupo5_TrabajoFinal_Avance.m'); Grupo5_TrabajoFinal_Avance</div>
+  <figure>
+    <img src="../matlab/capturas/matlab_online_pasos_1_2.jpg" alt="Salida de los pasos 1 y 2 en MATLAB Online">
+    <figcaption><b>Figura 6.</b> MATLAB Online, pasos 1 y 2: las fórmulas de la punta, las erratas de las ecuaciones (9) y (13), y los
+    ángulos de cada punto con sus dos soluciones (codo arriba dentro de límites, codo abajo fuera).</figcaption>
+  </figure>
+  <figure>
+    <img src="../matlab/capturas/matlab_online_figura_4.jpg" alt="Mapa de singularidades en MATLAB Online">
+    <figcaption><b>Figura 7.</b> MATLAB Online, paso 4: el mismo mapa de det(J) de la Figura 4, generado en MATLAB.</figcaption>
+  </figure>
+</section>
+
+<!-- LO QUE SIGUE -->
+<section class="pagina">
+  <h2>Lo que sigue y en qué semana del curso se ve</h2>
+  <table>
+    <tr><th>Siguiente paso del trabajo</th><th>Qué haremos</th><th>Semana del sílabo</th></tr>
+    <tr><td>Trayectorias</td><td>Unir los puntos de la secuencia A con interpoladores, como en el paper</td><td>6 (interpoladores) y 7 (control cinemático por jacobiano)</td></tr>
+    <tr><td>Control</td><td>Control por par calculado, para reproducir la Tabla 12 del paper, y PID no lineal</td><td>10 (PID no lineal) y 11 (par calculado)</td></tr>
+    <tr><td>Red neuronal</td><td>Generar un dataset con nuestro modelo y entrenar una red que resuelva la cinemática inversa; compararla con la solución geométrica del paso 2</td><td>12 (cinemática inversa con redes neuronales) y 13 (identificación con MLP)</td></tr>
+    <tr><td>Validación</td><td>Medir errores con RMS, RSD e IA, como el paper, y explicar las diferencias (incluida la de M12 y M13)</td><td>Rúbrica: evaluación y validación</td></tr>
+    <tr><td>Demo</td><td>Simulación animada del brazo siguiendo la trayectoria</td><td>Rúbrica: presentación y defensa</td></tr>
+  </table>
+  <h3>Consultas para el docente</h3>
+  <ol>
+    <li>¿Es aceptable el SCORBOT-ER V plus, que tiene 5 ejes, modelado con sus 3 primeros (base, hombro y codo)?</li>
+    <li>El paper publica solo I<sub>zz</sub>. ¿Basta con suponer I<sub>xx</sub> e I<sub>yy</sub> (barra o cilindro) o se requiere el tensor completo?</li>
+    <li>¿Está de acuerdo con que M12 y M13 deben ser cero en este robot?</li>
+  </ol>
+  <h3>Glosario rápido</h3>
+  <table>
+    <tr><th>Término</th><th>Significado</th></tr>
+    <tr><td>GDL</td><td>Grados de libertad: cuántos movimientos independientes tiene el robot (aquí 3: base, hombro y codo)</td></tr>
+    <tr><td>RRR</td><td>Tres articulaciones de revolución, es decir, que giran (no se deslizan)</td></tr>
+    <tr><td>DH</td><td>Denavit-Hartenberg: tabla de 4 parámetros por articulación para armar las matrices del robot</td></tr>
+    <tr><td>Cinemática directa / inversa</td><td>De ángulos a posición de la punta / de posición de la punta a ángulos</td></tr>
+    <tr><td>Jacobiano</td><td>Matriz que convierte velocidades de los motores en velocidad de la punta</td></tr>
+    <tr><td>Singularidad</td><td>Postura donde det(J) = 0 y el robot pierde una dirección de movimiento</td></tr>
+    <tr><td>Dinámica (M, C, G)</td><td>Ecuaciones que relacionan el movimiento con los torques de los motores</td></tr>
+  </table>
+</section>
+
+</body>
+</html>
