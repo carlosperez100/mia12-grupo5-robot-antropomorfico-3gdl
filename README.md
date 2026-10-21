@@ -47,6 +47,7 @@ index.html          página del avance (GitHub Pages)
 src/                modelo del robot y un script por paso
 resultados/         salidas numéricas y simbólicas
 assets/figuras/     figuras usadas en la página
+articulos/          catálogo de los 41 artículos revisados y PDF con licencia abierta
 ```
 
-El PDF del paper no se incluye en el repositorio. Puede descargarse desde el DOI (licencia CC BY 4.0).
+En [`articulos/`](articulos/) está el catálogo de los 41 artículos que revisamos para elegir el paper base: 35 de la búsqueda sistemática y 6 de la revisión inicial. Incluye los PDF cuya licencia permite compartirlos, entre ellos el paper base (CC BY 4.0); el resto se cita con su enlace.
